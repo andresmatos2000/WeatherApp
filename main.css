@@ -1,3 +1,7 @@
+* {
+    font-family: 'Courier New', Courier, monospace;
+}
+
 #weatherResults {
     display: none;
     border: 1px solid black;
@@ -8,9 +12,26 @@
     text-transform: capitalize;
 }
 
+#forecastResults {
+    min-height:80vh;
+}
+
 #Temperature {
     font-size:3rem;
 }
 #weatherResults img, #forecastResults img {
     width: 4rem;
+    
+}
+
+.fiveDayImage {
+    display:block;
+    margin:auto;
+}
+
+.forecastRow {
+    border: 1px solid black;
+}
+.hide {
+    display: none!important;
 }

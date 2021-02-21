@@ -1,40 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather</title>
     <link rel="stylesheet" href="./main.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
+
 <body>
     <form class="row w-75 mx-auto pt-3 pb-3">
         <label class="mr-2">Enter a U.S. city</label>
         <input class="col-6" id="weatherSearch" type="text"></input>
         <input class="ml-2" id="weatherSubmit" type="submit" value="Submit"></input>
     </form>
-      <div id="weatherResults" class="row w-75 mx-auto">
-          <div class="info col-12 col-sm-6">
-              <h2 id="Location"></h2>
-              <p id="Description"></p>
+    <div id="weatherResults" class="mb-3 row w-75 mx-auto">
+        <div class="info col-12 col-sm-6">
+            <h2 id="Location"></h2>
+            <p id="Description"></p>
 
-          </div>
-          <div class="image pt-2 col-12 col-sm-6 text-left text-sm-right">
-              <img id="weatherIcon" src="" alt="">
-              <div id="Temperature" class="caption"></div>
-          </div>
-          <input id="fiveDaySubmit" type="submit" value="5 Day">
-      </div>
-      <div id="forecastResults" class="row w-75 mx-auto">
-      </div>
+        </div>
+        <div class="image pt-2 col-12 col-sm-6 text-left text-sm-right">
+            <img id="weatherIcon" src="" alt="">
+            <div id="Temperature" class="caption"></div>
+        </div>
+        <input id="fiveDaySubmit" class="form-control" type="submit" value="5 Day">
+        <input id="close" class="form-control" type="submit" value="Close">
+    </div>
+    <div id="forecastResults" class="mb-3 row w-100 mx-auto justify-content-center">
+    </div>
+    <div id="Footer" class="center">
+        <div class="row">
+            <ul class="col-12 text-center">
+                <h5>Socials</h5>
+                <li><a calss="nav-link"
+                        href="https://github.com/BYU-CS-260-Winter-2021/lab-1-photography-website-andresmatos2000">GitHub</a>
+                </li>
+            </ul>
+        </div>
 
-    
-    
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <script src="momentjs.js"></script>
-    <script src="/index.js"></script>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous">
+        </script>
+        <script src="momentjs.js"></script>
+        <script src="/index.js"></script>
 </body>
+
 </html>

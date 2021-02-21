@@ -1,5 +1,14 @@
+let clickCount = 0;
+let forecastArray = [];
+let icons = [];
+let closer = false;
 //Current Weather
 document.getElementById("weatherSubmit").addEventListener("click", function(event){
+  document.getElementById("forecastResults").innerHTML = "";
+  icons = [];
+  forecastArray = [];
+  document.getElementById("fiveDaySubmit").disabled = false;
+
     const API_KEY = "5a378c01a0dab996b5d14260e434fcac";
     event.preventDefault();
     const value = document.getElementById("weatherSearch").value;
@@ -14,7 +23,17 @@ document.getElementById("weatherSubmit").addEventListener("click", function(even
       displayCurrent(json);
     });
 })
-const iconHelp = (arr) => {
+
+document.getElementById("close").addEventListener("click", function(event){
+  event.preventDefault();
+  document.getElementById("forecastResults").innerHTML = "";
+  icons = [];
+  forecastArray = [];
+  document.getElementById("fiveDaySubmit").disabled = false;
+  closer = true;
+
+});
+const iconHelp = (arr, n) => {
   if (arr.length == 0){
     return;
   }
@@ -34,30 +53,69 @@ const iconHelp = (arr) => {
   let common = iconPush(holder)
   forecastArray.push({date, icon: common, max_temp, min_temp});
   arr.splice(0,8);
-  iconHelp(arr);
+  iconHelp(arr, n + 1);
   console.log(forecastArray);
+  if(n == arr.length){
+    displayFiveDay(forecastArray);
+  }
 };
-function iconPush(arr){
+const iconPush = (arr) =>{
   return arr.sort((a,b) =>
         arr.filter(v => v===a).length
       - arr.filter(v => v===b).length
   ).pop();
-}
+};
 
-function isOdd(n) {
+const isOdd = (n) => {
   return Math.abs(n % 2) == 1;
-}
-//5 Day / 3 Hour
-let clickCount = 0;
-let forecastArray = [];
-let icons = [];
-document.getElementById("fiveDaySubmit").addEventListener("click", function(event){
-  clickCount++;
-  if (!isOdd(clickCount)){
-    document.getElementById("forecastResults").style.display = "none";
-  }else{
-    document.getElementById("forecastResults").style.display = "flex";
+};
 
+const forecastEvents = (array) => {
+  for (var i = 0; i < array.length; i ++) {
+    (function () {
+      let element = document.querySelector(`.forecastRow${i}`);
+      let elm = document.querySelectorAll(".forecast");
+      let elem = document.querySelector(`#for_forecastRow${i}`);
+        elem.addEventListener("click", function(event) {
+          
+          for( let i = 0; i < elm.length; i++){
+            if (elm[i].classList.contains("hide")){
+            } else {
+              elm[i].classList.add("hide");
+            }
+          }
+          event.preventDefault();
+          console.log(element);
+          element.classList.remove("hide");
+        });
+    }()); // immediate invocation
+}
+};
+
+const displayFiveDay = (forecast) => {
+  let div = document.getElementById("forecastResults");
+  for(i = forecast.length - 1; i >= 0; i--){
+    let date = forecast[i].date;
+    let icon = forecast[i].icon;
+    let max = forecast[i].max_temp;
+    let min = forecast[i].min_temp;
+
+    let pusher = `<div ="col-12 col-sm-6 mx-100"><h2 class='w-100 mx-auto col-12 col-sm-6'>${date}</h2>
+    <p class='w-100 mx-auto col-12 text-left text-sm-right col-sm-6' data-value='temperature'>Temperature: ${max}/${min}</p>
+    <img class="fiveDayImage" src="http://openweathermap.org/img/w/${icon}.png"/><input class="form-control" id="for_forecastRow${i}" type="submit" value="Full Report">`;
+    div.insertAdjacentHTML( 'afterbegin', pusher );
+    console.log(pusher);
+  };
+  forecastEvents(forecast);
+};
+
+
+//5 Day / 3 Hour
+
+document.getElementById("fiveDaySubmit").addEventListener("click", function(event){
+  if(closer = true){
+    document.getElementById("forecastResults").style.display = "flex";
+    closer = false;
   }
   
   const API_KEY = "5a378c01a0dab996b5d14260e434fcac";
@@ -72,20 +130,33 @@ document.getElementById("fiveDaySubmit").addEventListener("click", function(even
     return response.json();
   }).then(function(json) {
     let forecast = "";
+    let c = 0;
+    let checkDate = moment(json.list[0].dt_txt).format('MMM Do') ;
       for (let i=0; i < json.list.length; i++) {
-        if(i == 0 || i == 9 || i == 17 || i == 25 || i == 33)forecast += "<div class='row'>";
+        if(i == 0){forecast += `<div class="row w-100 mx-auto hide forecast forecastRow${c}">`; c++;}
+        if(checkDate != moment(json.list[i].dt_txt).format('MMM Do')){
+          console.log("open " + moment(json.list[i].dt_txt).format('MMM Do'))
+          forecast += `<div class="row w-100 mx-auto hide forecast forecastRow${c}">`; c++;
+          checkDate = moment(json.list[i].dt_txt).format('MMM Do');
+        }
 
         icons.push({ date: moment(json.list[i].dt_txt).format('MMM Do'), icon: json.list[i].weather[0].icon, temperature: Math.ceil((json.list[i].main.temp - 273.15) * 9/5 + 32)});
 
         forecast += "<h2 class='col-12 col-sm-6 '>" + moment(json.list[i].dt_txt).format('MMM Do YYYY, h a') + "</h2>";
         forecast += "<p class='col-12 text-left text-sm-right col-sm-6' data-value='temperature'>Temperature: " + Math.ceil((json.list[i].main.temp - 273.15) * 9/5 + 32); + "</p>";
 	      forecast += '<img class="" src="http://openweathermap.org/img/w/' + json.list[i].weather[0].icon + '.png"/>';
-        if(i == 8 || i == 16 || i == 24 || i == 32 || i == 40) forecast += "</div>";
+        if(i < json.list.length - 1){
+          if(checkDate != moment(json.list[i+1].dt_txt).format('MMM Do')){
+          forecast += "</div>";}
+        } else{
+          forecast += "</div>"
+        }
       }
       document.getElementById("forecastResults").innerHTML = forecast;
-      iconHelp(icons);
+      iconHelp(icons, 0);
 
   });
+  document.getElementById("fiveDaySubmit").disabled = true;
 })
 
 const displayCurrent = (data) => {
@@ -129,5 +200,5 @@ const getDirection = (degree) => {
 };
 
 
-document.querySelectorAll("p[data-value='temperature']")[1].innerText.substring(13)
+document.querySelectorAll("p[data-value='temperature']")[1].innerText.substring(13);
 
